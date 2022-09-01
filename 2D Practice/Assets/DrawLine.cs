@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class DrawLine : MonoBehaviour
 {
-    [SerializeField]
-    GameObject hand;
     float distance = 10.0f;
 
-    //Vector3 Pos;
+    Vector3 Pos;
+    Vector3 cursor;
     private void Start()
     {
 
@@ -16,25 +15,31 @@ public class DrawLine : MonoBehaviour
 
     private void Update()
     {
-        RaycastHit2D hit = Physics2D.Raycast(hand.transform.position, hand.transform.right, distance );
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, distance );
 
-        Debug.DrawRay(hand.transform.position,hand.transform.right * distance);
         if(hit)
-        {
-            Debug.Log(hit.point);
+            Pos = hit.point;
 
+        cursor = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 Hand_Dir = cursor - transform.position;
 
+        float angle = Mathf.Atan2(Hand_Dir.x,Hand_Dir.y) * Mathf.Rad2Deg;
 
-            //Pos = hit.point;
-        }
+        transform.rotation = Quaternion.Euler(0.0f, 0.0f, -angle);
 
-        Vector3 Hand_Dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - hand.transform.position;
-        float angle = Mathf.Atan2(Hand_Dir.y,Hand_Dir.x) * Mathf.Rad2Deg;
-        hand.transform.rotation = Quaternion.Euler(0.0f, 0.0f, angle);
+        //if (Input.GetMouseButtonDown(0))
+        //{
+
+        //}
     }
 
     private void OnDrawGizmos()
     {
-        //Gizmos.DrawSphere(Pos, 0.5f);
+        Gizmos.DrawSphere(Pos, 0.2f);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(cursor, 0.2f);
+
+        //Gizmos.DrawLine(transform.position,Pos);
     }
 }
