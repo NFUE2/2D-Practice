@@ -26,11 +26,6 @@ public class DrawLine : MonoBehaviour
         float angle = Mathf.Atan2(Hand_Dir.x,Hand_Dir.y) * Mathf.Rad2Deg;
 
         transform.rotation = Quaternion.Euler(0.0f, 0.0f, -angle);
-
-        //if (Input.GetMouseButtonDown(0))
-        //{
-
-        //}
     }
 
     private void OnDrawGizmos()
@@ -39,7 +34,5 @@ public class DrawLine : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(cursor, 0.2f);
-
-        //Gizmos.DrawLine(transform.position,Pos);
     }
 }
